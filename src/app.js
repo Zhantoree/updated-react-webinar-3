@@ -11,6 +11,21 @@ function App({store}) {
 
     const list = store.getState().list;
 
+    const checkNumber = (num) => {
+        if(num%10===1) {
+            return `Выделяли ${num} раз`
+        }
+        else if(num%10 === 2 || num%10 ===3 || num%10 ===4) {
+            if(num === 12 || num === 13 || num === 14) {
+                return `Выделяли ${num} раз`
+            }
+            return `Выделяли ${num} раза`
+        }
+        else {
+            return `Выделяли ${num} раз`
+        }
+    }
+
     return (
         <div className='App'>
             <div className='App-head'>
@@ -26,7 +41,7 @@ function App({store}) {
                             <div className={'Item' + (item.selected ? ' Item_selected' : '')}
                                  onClick={() => store.selectItem(item.code)}>
                                 <div className='Item-code'>{item.code}</div>
-                                <div className='Item-title'>{item.title} {item.highlighted >= 1 ? `Выделяли ${item.highlighted} раз` : ``}</div>
+                                <div className='Item-title'>{item.title} {item.highlighted >= 1 ? checkNumber(item.highlighted) : ``}</div>
                                 <div className='Item-actions'>
                                     <button onClick={() => store.deleteItem(item.code)}>
                                         Удалить

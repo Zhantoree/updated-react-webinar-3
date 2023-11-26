@@ -1,6 +1,9 @@
 /**
  * Хранилище состояния приложения
  */
+
+import uniqueRandom from "unique-random";
+
 class Store {
   id = 7;
 
@@ -40,15 +43,34 @@ class Store {
     for (const listener of this.listeners) listener();
   }
 
+  getUniqueNumber() {
+    let random = true;
+    let limit = 1000;
+    let getUnique = uniqueRandom(1, limit);
+    while(true) {
+      if(this.state.list.length >= limit)
+        return "There are too many elements. Please increase elements limit ----> index.js>46 "
+      let candidate = getUnique()
+      this.state.list.forEach(item => {
+        if(item.code === candidate) {
+          random = false
+        }
+      })
+      if(random === true) {
+        return candidate
+      }
+      random = true
+    }
+  }
+
   /**
    * Добавление новой записи
    */
   addItem() {
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: this.id + 1, title: 'Новая запись', highlighted: 0}]
+      list: [...this.state.list, {code: this.getUniqueNumber(), title: 'Новая запись', highlighted: 0}]
     })
-    this.id++;
   };
 
   /**
