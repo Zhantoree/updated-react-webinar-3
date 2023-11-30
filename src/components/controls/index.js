@@ -1,21 +1,41 @@
-import React from "react";
-import PropTypes from 'prop-types';
+import React, {useEffect, useState} from "react";
+import PropTypes, {bool} from 'prop-types';
 import './style.css';
+import {plural} from "../../utils";
 
-function Controls({onAdd}) {
+function Controls({list, sum, modal, setModal}) {
+  let amount = 0;
+  list.forEach(item => amount+=item.amount)
+
   return (
     <div className='Controls'>
-      <button onClick={() => onAdd()}>Добавить</button>
+      <p>В корзине: <span style={{fontWeight: "bold"}}> {amount === 0 ? "пусто" : `${amount} ${plural(amount, {
+        one: 'товар',
+        few: 'товара',
+        many: 'товаров'
+      })}`} {sum===0 ? "" : `/ ${sum} ₽`} </span></p>
+      <button style={{marginRight: "10px"}} onClick={setModal(!modal)}>Перейти</button>
     </div>
   )
 }
 
 Controls.propTypes = {
-  onAdd: PropTypes.func
+  list: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.number,
+    title: PropTypes.string,
+    price: PropTypes.number,
+    amount: PropTypes.number,
+  })),
+  sum: PropTypes.number,
+  modal: PropTypes.bool,
+  setModal: PropTypes.func
 };
 
 Controls.defaultProps = {
-  onAdd: () => {}
+  number: 0,
+  list: [],
+  modal: false,
+  setModal: () => {}
 }
 
 export default React.memo(Controls);
