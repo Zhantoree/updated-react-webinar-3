@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import PropTypes from "prop-types";
-import {plural} from "../../utils";
 import './style.css';
 
 function Item(props) {
@@ -17,11 +16,26 @@ function Item(props) {
 
   return (
     <div className="Item">
-      <div className='Item-code'>{props.item.code}</div>
-      <div className='Item-title'>
-        <p>{props.item.title}</p>
-        <p>{props.item.price} ₽</p>
-      </div>
+      {
+        props.mode === true ?
+          <>
+            <div className='Item-code'>{props.item.code}</div>
+            <div className='Item-title'>
+              <p>{props.item.title}</p>
+              <p  style={{marginLeft: "auto"}}>{props.item.price} ₽</p>
+              <p>{props.item.amount} шт</p>
+            </div>
+          </>
+          :
+          <>
+            <div className='Item-code'>{props.item.code}</div>
+            <div className='Item-title'>
+
+              <p>{props.item.title}</p>
+              <p>{props.item.price} ₽</p>
+            </div>
+          </>
+      }
 
       <div className='Item-actions'>
         {

@@ -1,4 +1,54 @@
 .Modal {
-  position: absolute;
+  position: fixed;
+  display: flex;
+  background: rgba(0, 0, 0, 0.70);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
 
+.Modal-body {
+  position: absolute;
+  background-color: white;
+  border-radius: 10px;
+  width: 48%;
+  height: fit-content;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 20px;
+}
+
+.Modal-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 70px;
+}
+
+.Modal-title {
+  color: #000;
+  font-family: 'Arial', sans-serif;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+}
+
+.Modal-button {
+  margin-right:  20px;
+}
+
+.Modal-sum {
+  display: flex;
+  justify-content: flex-end;
+  text-align: center;
+  margin-right: 115px;
 }

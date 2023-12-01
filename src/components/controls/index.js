@@ -6,7 +6,9 @@ import {plural} from "../../utils";
 function Controls({list, sum, modal, setModal}) {
   let amount = 0;
   list.forEach(item => amount+=item.amount)
-
+  const toggleModal = (value) => {
+    setModal(value)
+  }
   return (
     <div className='Controls'>
       <p>В корзине: <span style={{fontWeight: "bold"}}> {amount === 0 ? "пусто" : `${amount} ${plural(amount, {
@@ -14,7 +16,7 @@ function Controls({list, sum, modal, setModal}) {
         few: 'товара',
         many: 'товаров'
       })}`} {sum===0 ? "" : `/ ${sum} ₽`} </span></p>
-      <button style={{marginRight: "10px"}} onClick={setModal(!modal)}>Перейти</button>
+      <button style={{marginRight: "10px"}} onClick={() => toggleModal(!modal)}>Перейти</button>
     </div>
   )
 }

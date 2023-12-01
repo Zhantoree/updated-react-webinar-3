@@ -13,7 +13,7 @@ import Modal from "./components/modal";
 function App({store}) {
   const list = store.getState().list;
   const sum = store.getState().sum
-  const [modal, setModal] = useState(true)
+  const [modal, setModal] = useState(false)
   const callbacks = {
     onDeleteItem: useCallback((code) => {
       store.deleteItem(code);
@@ -33,7 +33,7 @@ function App({store}) {
             onAddItem={callbacks.onAddItem}/>
       {
         modal ?
-          <Modal modal={modal} setModal={setModal} onDeleteItem={callbacks.onDeleteItem}/>
+          <Modal modal={modal} setModal={setModal} sum={sum} list={list} onDeleteItem={callbacks.onDeleteItem}/>
           :
           ""
       }

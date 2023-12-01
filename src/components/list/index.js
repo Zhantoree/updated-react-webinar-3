@@ -6,6 +6,14 @@ import './style.css';
 function List({list, onDeleteItem, onAddItem, mode}) {
   return (
     <div className='List'>{
+      mode === true ?
+        list.filter(item => item.amount>0).map(item =>
+          <div key={item.code} className='List-item'>
+            <Item item={item} onDelete={onDeleteItem} mode={mode} onAdd={onAddItem}/>
+          </div>
+        )
+        :
+
       list.map(item =>
         <div key={item.code} className='List-item'>
           <Item item={item} onDelete={onDeleteItem} mode={mode} onAdd={onAddItem}/>
