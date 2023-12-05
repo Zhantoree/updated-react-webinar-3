@@ -7,6 +7,7 @@ import {generateCode} from "./utils";
 class Store {
   constructor(initState = {
     list: [],
+    cart: [],
     sum: 0
   }) {
     this.state = initState;
@@ -49,21 +50,19 @@ class Store {
    */
   addItem(code) {
     let elem = this.state.list.filter(item => item.code === code)[0]
-    console.log(elem, "Elem")
     this.setState({
       ...this.state,
       sum: this.state.sum + elem.price,
-      list: this.state.list.map(item => {
-        if(item.code === code){
+      cart: this.state.cart.map(item => {
+        if (code === item.code) {
           return {
             ...item,
             amount: item.amount + 1
           }
         }
-        return item;
+        return item
       })
     })
-    console.log(this.state.sum)
   };
 
   /**
@@ -71,18 +70,15 @@ class Store {
    * @param code
    */
   deleteItem(code) {
+    let elem = this.state.list.filter(item => item.code === code)[0]
     this.setState({
       ...this.state,
-      list: this.state.list.map(item => {
-        if(item.code === code) {
-          if(item.amount >= 1) {
-            return {
-              ...item,
-              amount: item.amount - 1
-            }
-          }
-          else {
-            return item
+      sum: this.state.sum - elem.price,
+      cart: this.state.cart.map(item => {
+        if (item.code === code) {
+          return {
+            ...item,
+            amount: item.amount - 1
           }
         }
         return item

@@ -4,6 +4,7 @@ import Controls from "./components/controls";
 import Head from "./components/head";
 import PageLayout from "./components/page-layout";
 import Modal from "./components/modal";
+import {numberPlural} from "./utils";
 
 /**
  * Приложение
@@ -12,8 +13,14 @@ import Modal from "./components/modal";
  */
 function App({store}) {
   const list = store.getState().list;
-  const sum = store.getState().sum
+  const cart = store.getState().cart;
+  const sum = store.getState().sum;
   const [modal, setModal] = useState(false)
+  let isEmpty = true;
+  cart.forEach(item => {
+    if (item.amount >= 1)
+      isEmpty = false
+  })
   const callbacks = {
     onDeleteItem: useCallback((code) => {
       store.deleteItem(code);
@@ -27,13 +34,31 @@ function App({store}) {
   return (
     <PageLayout>
       <Head title='Магазин' />
-      <Controls list={list} sum={sum} modal={modal} setModal={setModal}/>
+      <Controls cart={cart} sum={sum} isEmpty={isEmpty} modal={modal} setModal={setModal}/>
       <List list={list}
+            cart={cart}
             onDeleteItem={callbacks.onDeleteItem}
             onAddItem={callbacks.onAddItem}/>
       {
         modal ?
-          <Modal modal={modal} setModal={setModal} sum={sum} list={list} onDeleteItem={callbacks.onDeleteItem}/>
+          <Modal modal={modal} setModal={setModal}>
+            {
+              isEmpty ?
+                ""
+                :
+                <List list={list} cart={cart} mode={true} onDeleteItem={callbacks.onDeleteItem}/>
+            }
+            <div className="Modal-sum">
+              {
+                isEmpty === true ?
+                  <><h4>Пусто</h4></>
+                  :
+                  <>
+                    <p>Итого</p><p style={{fontWeight: "bold", marginLeft: '15px'}}>{numberPlural(sum)}</p>
+                  </>
+              }
+            </div>
+          </Modal>
           :
           ""
       }

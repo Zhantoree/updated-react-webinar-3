@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import PropTypes from "prop-types";
 import './style.css'
-import List from "../list";
-const Modal = ({modal, setModal, list, sum, onDeleteItem}) => {
-  const toggleModal = (value) => {
+const Modal = ({modal, setModal, children}) => {
+  const toggleModal = useCallback((value) => {
     setModal(value)
-  }
+  }, [setModal])
 
   return (
     <div className="Modal" onClick={() => setModal(!modal)}>
@@ -14,31 +13,14 @@ const Modal = ({modal, setModal, list, sum, onDeleteItem}) => {
           <div className="Modal-title">Корзина</div>
           <button className="Modal-button" onClick={()=> toggleModal(!modal)}>Закрыть</button>
         </div>
-        <List list={list} mode={true} onDeleteItem={onDeleteItem}/>
-        <div className="Modal-sum">
-          {
-            sum === 0 ?
-              <><h4>Пусто</h4></>
-              :
-              <>
-                <p>Итого</p><p style={{fontWeight: "bold", marginLeft: '15px'}}>{sum} ₽</p>
-              </>
-          }
-        </div>
+        {children}
       </div>
     </div>
   );
 };
 
 Modal.propTypes = {
-  list: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.number,
-    title: PropTypes.string,
-    price: PropTypes.number,
-    amount: PropTypes.number,
-  })),
-  onDeleteItem: PropTypes.func,
-  sum: PropTypes.number,
+  children: PropTypes.node,
   modal: PropTypes.bool,
   setModal: PropTypes.func
 };

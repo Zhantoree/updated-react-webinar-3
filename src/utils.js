@@ -16,6 +16,12 @@ export function plural(value, variants = {}, locale = 'ru-RU') {
   return variants[key] || '';
 }
 
+export function numberPlural(value) {
+  const options1 = { style: 'currency', currency: 'RUB' };
+  const numberFormat1 = new Intl.NumberFormat('ru-RU', options1);
+
+  return numberFormat1.format(value)
+}
 /**
  * Генератор чисел с шагом 1
  * Вариант с замыканием на начальное значение в самовызываемой функции.

@@ -1,36 +1,38 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import PropTypes, {bool} from 'prop-types';
 import './style.css';
-import {plural} from "../../utils";
+import {numberPlural, plural} from "../../utils";
 
-function Controls({list, sum, modal, setModal}) {
+function Controls({cart, sum, modal, setModal, isEmpty}) {
   let amount = 0;
-  list.forEach(item => amount+=item.amount)
-  const toggleModal = (value) => {
+  cart.forEach(item => {
+    if(item.amount > 0)
+      amount+=1
+  })
+  const toggleModal = useCallback((value) => {
     setModal(value)
-  }
+  }, [setModal])
   return (
     <div className='Controls'>
       <p>В корзине: <span style={{fontWeight: "bold"}}> {amount === 0 ? "пусто" : `${amount} ${plural(amount, {
         one: 'товар',
         few: 'товара',
         many: 'товаров'
-      })}`} {sum===0 ? "" : `/ ${sum} ₽`} </span></p>
+      })}`} {isEmpty===true ? "" : `/ ${numberPlural(sum)}`} </span></p>
       <button style={{marginRight: "10px"}} onClick={() => toggleModal(!modal)}>Перейти</button>
     </div>
   )
 }
 
 Controls.propTypes = {
-  list: PropTypes.arrayOf(PropTypes.shape({
+  cart: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.number,
-    title: PropTypes.string,
-    price: PropTypes.number,
     amount: PropTypes.number,
   })),
   sum: PropTypes.number,
   modal: PropTypes.bool,
-  setModal: PropTypes.func
+  setModal: PropTypes.func,
+  isEmpty: PropTypes.bool
 };
 
 Controls.defaultProps = {
